@@ -9,5 +9,3 @@ require (
 )
 
 require golang.org/x/text v0.9.0 // indirect
-
-replace github.com/danny-personal/go-connect-sample/gen/greet/v1/greetv1connect => ../gen/greet/v1/greetv1connect
