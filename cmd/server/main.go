@@ -9,6 +9,7 @@ import (
 	greetv1 "github.com/danny-personal/go-connect-sample/gen/greet/v1"
 
 	"github.com/bufbuild/connect-go"
+	"github.com/bufbuild/protovalidate-go"
 	"github.com/danny-personal/go-connect-sample/gen/greet/v1/greetv1connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -20,6 +21,15 @@ func (s *GreetServer) Greet(
 	ctx context.Context,
 	req *connect.Request[greetv1.GreetRequest],
 ) (*connect.Response[greetv1.GreetResponse], error) {
+	v, err := protovalidate.New()
+	if err != nil {
+		log.Println("failed to initialize validator:", err)
+	}
+	if err = v.Validate(req.Msg); err != nil {
+		log.Println("validation failed:", err)
+	} else {
+		log.Println("validation succeeded")
+	}
 	log.Println("Request headers: ", req.Header())
 	res := connect.NewResponse(&greetv1.GreetResponse{
 		Greeting: fmt.Sprintf("Hello, %s!", req.Msg.Name),
