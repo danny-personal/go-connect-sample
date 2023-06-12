@@ -2,10 +2,16 @@ syntax = "proto3";
 
 package greet.v1;
 
-option go_package = "example/gen/greet/v1;greetv1";
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/danny-personal/go-connect-sample/gen/greet/v1;greetv1";
 
 message GreetRequest {
-  string name = 1;
+  string name = 1 [(buf.validate.field).cel = {
+    id: "name",
+    message: "name must be at least 4 characters.",
+    expression: "this.size() > 4"
+  }];
 }
 
 message GreetResponse {
