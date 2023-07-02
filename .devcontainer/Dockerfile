@@ -27,6 +27,10 @@ RUN go install github.com/sqs/goreturns@latest
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1
 RUN go install google.golang.org/protobuf/...@v1.28.1
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.3.0
+RUN go install github.com/bufbuild/buf/cmd/buf@latest
+RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+RUN go install github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
 
 # [Optional] Uncomment the next lines to use go get to install anything else you need
 # USER vscode
