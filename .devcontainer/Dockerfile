@@ -1,14 +1,13 @@
-# [Choice] Go version (use -bullseye variants on local arm64/Apple Silicon): 1, 1.19, 1.18, 1-bullseye, 1.19-bullseye, 1.18-bullseye, 1-buster, 1.19-buster, 1.18-buster
-ARG VARIANT=1-bullseye
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT}
-
-# [Choice] Node.js version: none, lts/*, 18, 16, 14
-ARG NODE_VERSION="none"
-RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+FROM mcr.microsoft.com/devcontainers/go:0-1.20
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
+
+# [Optional] Uncomment the next lines to use go get to install anything else you need
+# USER vscode
+# RUN go get -x <your-dependency-or-tool>
+# USER root
 ARG SERF_VERSION="0.8.2"
 RUN sudo apt-get update \ 
     && sudo apt-get install -y --no-install-recommends protobuf-compiler libprotobuf-dev \
@@ -31,10 +30,6 @@ RUN go install github.com/bufbuild/buf/cmd/buf@latest
 RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 RUN go install github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
-
-# [Optional] Uncomment the next lines to use go get to install anything else you need
-# USER vscode
-# RUN go get -x <your-dependency-or-tool>
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
